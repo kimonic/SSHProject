@@ -29,10 +29,20 @@
             </props>
         </property>
         <!-- 加载Hibernate中的映射文件,此处加载.hbm.xml文件 -->
-        <!--<property name="mappingResources">-->
-            <!--<list>-->
-                <!--<value></value>-->
-            <!--</list>-->
-        <!--</property>-->
+        <property name="mappingResources">
+            <list>
+                <!--此处写.hbm.xml的文件路径-->
+                <value>mjava/dao/LoginBean.hbm.xml</value>
+            </list>
+        </property>
     </bean>
+
+    <!--网上直接赋值代码出现, Element 'beans' cannot have character [children],-->
+    <!--because the type's content type is element-only.错误,可能跟复制网页代码出现-->
+    <!--不可见的非法字符的原因,空格等,重新自己输入一边代码即可-->
+    <bean id="userManager" class="mjava.controller.UserManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+
 </beans>

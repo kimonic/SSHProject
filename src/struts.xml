@@ -5,4 +5,39 @@
         "http://struts.apache.org/dtds/struts-2.5.dtd">
 
 <struts>
+    <!--struts-default爆红的解决办法：-->
+    <!--1.项目中要引入struts2-core.jar包-->
+    <!--2.到Project Structure - Facets - Struts2 - File sets - Default File Set -->
+    <!--增加 jar 包内的 struts-default.xml-->
+    <!--<package name="mypackage" extends="struts-default">-->
+    <!--<action name="first">-->
+    <!--<result>/struts2onepart/first.jsp</result>-->
+    <!--</action>-->
+    <!--</package>-->
+    <!--//基础配置  -->
+    <!--动态调用action方法需要设置为true-->
+    <constant name="struts.enable.DynamicMethodInvocation" value="true" />
+    <constant name="struts.devMode" value="true" />
+    <constant name="struts.i18n.reload" value="true" />
+    <!--在struts.xml文件修改后自动加载-->
+    <constant name="struts.configuration.xml.reload" value="true" />
+    <!--允许OGNL调用静态变量和静态方法,默认值为false-->
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true"/>
+    <!--声明包-->
+    <package name="default" extends="struts-default" namespace="/">
+        <!--必须添加该语句才能使用action的动态调用方法,或者逐个添加方法名,用,分隔-->
+        <!--https://blog.csdn.net/iyandong/article/details/52792471-->
+        <global-allowed-methods>regex:.*</global-allowed-methods>
+
+        <!--定义action-->
+        <!--重点重点重点&#45;&#45;包名不能以Java开头-->
+        <action name="loginBean" class="mjava.action.LoginAction" >
+            <!--添加成功的映射界面-->
+            <!--result____name属性的默认值为success-->
+            <result name="success">/loginandregister/loginsucess.jsp</result>
+            <!--更新成功的映射界面-->
+        </action>
+
+
+    </package>
 </struts>
