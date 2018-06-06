@@ -6,9 +6,12 @@ import mjava.controller.UserManager;
 import mjava.controller.UserManagerConfig;
 import mjava.dao.LoginBean;
 import mjava.dao.LoginConfig;
+import mjava.dao.LoginDAO;
+import org.hibernate.internal.SessionFactoryImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 
 import java.util.Map;
 
@@ -55,8 +58,9 @@ public class LoginAction extends ActionSupport {
 //        AnnotationConfigApplicationContext context1=new AnnotationConfigApplicationContext(UserManagerConfig.class);
 
 
-        ApplicationContext context1 =new ClassPathXmlApplicationContext("spring-config.xml");
-        UserManager userManager= (UserManager) context1.getBean("userManager");
+//        ApplicationContext context1 =new ClassPathXmlApplicationContext("spring-config.xml");
+//        LoginDAO userManager= (LoginDAO) context1.getBean("LoginDAO");
+        UserManager userManager=context.getBean(UserManager.class);
         userManager.add(user);
 
         System.out.println("用户名:"+user.getName());

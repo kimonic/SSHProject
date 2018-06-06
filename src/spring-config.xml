@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 引入外部的属性文件 -->
     <context:property-placeholder location="classpath:jdbc.properties"/>
+
 
     <!-- 配置c3p0连接池 -->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
@@ -35,14 +37,42 @@
                 <value>mjava/dao/LoginBean.hbm.xml</value>
             </list>
         </property>
+    </bean>   
+
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+
+    <bean id="LoginDAO" class="mjava.dao.LoginDAO">
+        <!--<property name="trsactionmanager" ref="transactionManager"/>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
     <!--网上直接赋值代码出现, Element 'beans' cannot have character [children],-->
     <!--because the type's content type is element-only.错误,可能跟复制网页代码出现-->
     <!--不可见的非法字符的原因,空格等,重新自己输入一边代码即可-->
-    <bean id="userManager" class="mjava.controller.UserManager">
-        <property name="sessionFactory" ref="sessionFactory"/>
-    </bean>
+    <!--<bean id="userManager" class="mjava.controller.UserManager">-->
+        <!--<property name="sessionFactory" ref="sessionFactory"/>-->
+    <!--</bean>-->
 
-
+    <!--&lt;!&ndash; 配置一个事务管理器 &ndash;&gt;-->
+    <!--<bean id="transactionManager"-->
+          <!--class="org.springframework.orm.hibernate5.HibernateTransactionManager">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+    <!--&lt;!&ndash; xml配置事务 &ndash;&gt;-->
+    <!--<tx:advice id="txAdviceHibernate" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="delete*" propagation="REQUIRED" />-->
+            <!--<tx:method name="update*" propagation="REQUIRED" />-->
+            <!--<tx:method name="save*" propagation="REQUIRED" />-->
+            <!--<tx:method name="*" read-only="true" />-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="serviceMethodsHibnerate" expression="execution(* com.longxia.springmvc.manager..*.*(..))"/>-->
+        <!--<aop:advisor advice-ref="txAdviceHibernate" pointcut-ref="serviceMethodsHibnerate" />-->
+    <!--</aop:config>-->
+    <!--&lt;!&ndash; xml配置事务&ndash;&gt;-->
 </beans>
