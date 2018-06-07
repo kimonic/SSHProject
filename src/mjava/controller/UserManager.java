@@ -33,7 +33,7 @@ public class UserManager extends HibernateDaoSupport {
     public void setHt(HibernateTemplate ht) {
         this.ht = ht;
     }
-
+//17852526666
     @Resource
     public void setSessionFactory0(SessionFactory sessionFactory){
         super.setSessionFactory(sessionFactory);
@@ -43,7 +43,7 @@ public class UserManager extends HibernateDaoSupport {
 
     @Autowired
     public UserManager(LocalSessionFactoryBean sessionFactory) {
-        setSessionFactory((SessionFactory) sessionFactory.getObject());
+        setSessionFactory(sessionFactory.getObject());
         this.ht = super.getHibernateTemplate();
     }
     @Transactional
